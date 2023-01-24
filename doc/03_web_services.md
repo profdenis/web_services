@@ -1,7 +1,6 @@
 # Web Services
 
-Notes based in large part on the book *Designing Web APIs*, by Jin, Sahni & 
-Shevat
+Notes based in part on the book *Designing Web APIs*, by Jin, Sahni & Shevat
 
 ## APIs
 
