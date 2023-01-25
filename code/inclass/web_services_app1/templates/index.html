@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Web Services</title>
+    <link rel="stylesheet" href="/static/webservices.css">
+</head>
+<body>
+{#<a href="{{ hello_link }}">Link to hello</a>#}
+{#<a href="{{ goodbye_link }}">Link to goodbye</a>#}
+<div class="header">
+    <h1>Index Web Services</h1>
+</div>
+
+{% block contents %}
+    <ol>
+        {% for link in links %}
+            <li>
+                <a href="{{ link }}">{{ link }}</a>
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+<footer>
+    <h3>Some footer</h3>
+</footer>
+</body>
+</html>
