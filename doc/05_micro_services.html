@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>420-941-VA Web Services</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">420-941-VA Web Services</h1>
+</header>
+<h1 id="understanding-microservices">Understanding Microservices</h1>
+<p>Based on textbook: Python Microservices Development, Tarek Ziadé (<a href="https://www.packtpub.com/web-development/python-microservices-development" class="uri">https://www.packtpub.com/web-development/python-microservices-development</a>)</p>
+<h2 id="microservices-trend">Microservices Trend</h2>
+<ul>
+<li>Emerged in the last few years</li>
+<li>Partially based on companies’ willingness to speed up their release cycles.</li>
+<li>They want to be agile by iterating often</li>
+</ul>
+<p><em>“Write a paper promising salvation, make it a structured something or a virtual something, or abstract, distributed or higher-order or applicative, and you can almost be certain of having started a new cult.”</em></p>
+<p>Edsger W. Dijkstra</p>
+<h2 id="plan">Plan</h2>
+<ul>
+<li>A word on Service-Oriented Architecture</li>
+<li>Monolithic approach of building an application</li>
+<li>Microservices approach of building applications</li>
+<li>Benefits of microservices</li>
+<li>Pitfalls in microservices</li>
+<li>Implementing microservices with Python</li>
+</ul>
+<h2 id="origins-of-service-oriented-architecture">Origins of Service-Oriented Architecture</h2>
+<p><em>“SOA predates microservices, and its core principle is the idea that you organize applications into a discrete unit of functionality that can be accessed remotely and acted upon and updated independently.”</em></p>
+<p>Wikipedia</p>
+<h3 id="soa-unit">SOA Unit</h3>
+<ul>
+<li>Each unit in this preceding definition is:
+<ul>
+<li>a self-contained service</li>
+<li>which implements one facet of a business, and</li>
+<li>provides its feature through some interface.</li>
+</ul></li>
+</ul>
+<h2 id="soa-manifesto-httpwww.soa-manifesto.org">SOA Manifesto (<a href="http://www.soa-manifesto.org" class="uri">http://www.soa-manifesto.org</a>)</h2>
+<ul>
+<li>Service orientation is a paradigm that frames what you do.</li>
+<li>Service-oriented architecture (SOA) is a type of architecture that results from applying service orientation.</li>
+<li><strong>Goal</strong>: help organizations consistently deliver sustainable business value, with increased agility and cost-effectiveness, in line with changing business needs.</li>
+</ul>
+<h3 id="soa-manifesto-priorities">SOA Manifesto Priorities</h3>
+<ul>
+<li><strong>Business value</strong> over technical strategy</li>
+<li><strong>Strategic goals</strong> over project-specific benefits</li>
+<li><strong>Intrinsic interoperability</strong> over custom integration</li>
+<li><strong>Shared services</strong> over specific-purpose implementations</li>
+<li><strong>Flexibility</strong> over optimization</li>
+<li><strong>Evolutionary refinement</strong> over pursuit of initial perfection</li>
+</ul>
+<h3 id="soa-manifesto-guiding-principles-1">SOA Manifesto Guiding Principles (1)</h3>
+<ul>
+<li>Respect the social and power structure of the organization.</li>
+<li>Recognize that SOA ultimately demands change on many levels.</li>
+<li>The scope of SOA adoption can vary. Keep efforts manageable and within meaningful boundaries.</li>
+<li>Products and standards alone will neither give you SOA nor apply the service orientation paradigm for you.</li>
+</ul>
+<h3 id="soa-manifesto-guiding-principles-2">SOA Manifesto Guiding Principles (2)</h3>
+<ul>
+<li>SOA can be realized through a variety of technologies and standards.</li>
+<li>Establish a uniform set of enterprise standards and policies based on industry, de facto, and community standards.</li>
+<li>Pursue uniformity on the outside while allowing diversity on the inside.</li>
+</ul>
+<h3 id="soa-manifesto-guiding-principles-3">SOA Manifesto Guiding Principles (3)</h3>
+<ul>
+<li>Identify services through collaboration with business and technology stakeholders.</li>
+<li>Maximize service usage by considering the current and future scope of utilization.</li>
+<li>Verify that services satisfy business requirements and goals.</li>
+<li>Evolve services and their organization in response to real use.</li>
+</ul>
+<h3 id="soa-manifesto-guiding-principles-4">SOA Manifesto Guiding Principles (4)</h3>
+<ul>
+<li>Separate the different aspects of a system that change at different rates.</li>
+<li>Reduce implicit dependencies and publish all external dependencies to increase robustness and reduce the impact of change.</li>
+<li>At every level of abstraction, organize each service around a cohesive and manageable unit of functionality</li>
+</ul>
+<h3 id="soa-and-microservices">SOA and microservices</h3>
+<ul>
+<li>At the end of the day, SOA can be everything and anything as long as you are not running all your application code into a single process.</li>
+<li>microservices are one specialization of SOA
+<ul>
+<li>because they fulfill some of the SOA goals which are to build apps with standalone components that interact with each other.</li>
+</ul></li>
+</ul>
+<h2 id="the-monolithic-approach">The monolithic approach</h2>
+<ul>
+<li>Example: hotel booking site</li>
+<li>Search on the hotel website:
+<ol type="1">
+<li>It runs a couple of SQL queries against its hotels’ database.</li>
+<li>An HTTP request to a partner’s service is made to add more hotels to the list.</li>
+<li>An HTML results page is generated using an HTML template engine.</li>
+</ol></li>
+</ul>
+<h3 id="booking-a-room">Booking a room</h3>
+<ol type="1">
+<li>The customer gets created in the database if needed, and has to authenticate.</li>
+<li>Payment is carried out by interacting with the bank web service.</li>
+<li>The app saves the payment details in the database for legal reasons.</li>
+<li>A receipt is generated using a PDF generator.</li>
+<li>A recap email is sent to the user using the email service.</li>
+<li>A reservation email is forwarded to the third-party hotel using the email service.</li>
+<li>A database entry is added to keep track of the reservation.</li>
+</ol>
+<figure>
+<img src="images/booking_app.jpeg" title="Booking App Monolithic Architecture" alt="" /><figcaption>Booking App Monolithic Architecture</figcaption>
+</figure>
+<h3 id="benefits">Benefits</h3>
+<ul>
+<li>Single code base</li>
+<li>Deployment is a no-brainer</li>
+<li>If your application stays small, this model works well and is easy to maintain for a single team.</li>
+</ul>
+<h3 id="issues-1">Issues (1)</h3>
+<ul>
+<li>If you need to make a sweeping change that is large in scope such as changing your banking service or your database layer, the whole application gets into a very unstable state.</li>
+<li>Small changes can also generate collateral damage because different parts of the system have different uptime and stability requirements.</li>
+</ul>
+<h3 id="issues-2">Issues (2)</h3>
+<ul>
+<li>Uncontrolled growth</li>
+<li>Big software projects usually take a couple of years to mature, and then they slowly start to turn into an incomprehensible mess that’s hard to maintain</li>
+<li>As the complexity grows, fewer people fully understand the implications of every small change they make</li>
+</ul>
+<h2 id="summary-of-the-pros-and-cons-of-the-monolithic-approach">Summary of the Pros and Cons of the Monolithic Approach</h2>
+<ul>
+<li>Starting a project as a monolith is easy, and probably the best approach.</li>
+<li>A centralized database simplifies the design and organization of the data.</li>
+<li>Deploying one application is simple.</li>
+<li>Any change in the code can impact unrelated features. When something breaks, the whole application may break.</li>
+<li>Solutions to scale your application are limited: you can deploy several instances, but if one particular feature inside the app takes all the resources, it impacts everything.</li>
+<li>As the code base grows, it’s hard to keep it clean and under control.</li>
+</ul>
+<h2 id="flask-web-app">Flask Web App</h2>
+<ul>
+<li>Helps you
+<ul>
+<li>focus on the business logic</li>
+<li>split your code into small packages</li>
+<li>externalize some of your code into Flask extensions and small Python packages</li>
+</ul></li>
+<li>The UNIX Philosophy: “Small is beautiful.”</li>
+<li>But be careful of <strong>dependency hell</strong>.</li>
+</ul>
+<h2 id="the-microservice-approach">The microservice approach</h2>
+<figure>
+<img src="images/booking_app2.jpeg" title="Booking App Microservice Architecture" alt="" /><figcaption>Booking App Microservice Architecture</figcaption>
+</figure>
+<h3 id="components-1">Components (1)</h3>
+<ol type="1">
+<li><strong>Booking UI</strong>: A frontend service, which generates the web user interface, and interacts with all the other microservices.</li>
+<li><strong>PDF reporting service</strong>: A very simple service that would create PDFs for the receipts or any other document given a template and some data.</li>
+<li><strong>Search</strong>: A service that can be queried to get a list of hotels given a city name. This service has its own database.</li>
+</ol>
+<h3 id="components-2">Components (2)</h3>
+<ol type="1">
+<li><strong>Payments</strong>: A service that interacts with the third-party bank service, and manages a billing database. It also sends e-mails on successful payments.</li>
+<li><strong>Reservations</strong>: Stores reservations, and generates PDFs.</li>
+<li><strong>Users</strong>: Stores the user information, and interacts with users via emails.</li>
+<li><strong>Authentication</strong>: An OAuth 2-based service that returns authentication tokens, which each microservice can use to authenticate when calling others.</li>
+</ol>
+<ul>
+<li>In this design, each component communicates using the HTTP protocol, and features are made available through RESTful web services.</li>
+<li>There’s no centralized database</li>
+<li>Each microservice deals internally with its own data structures</li>
+<li>The data that gets in and out uses a language-agnostic format like JSON (or XML or YAML)</li>
+</ul>
+<h3 id="microservices-1">Microservices (1)</h3>
+<ul>
+<li>A web application designed with microservices is a composition of several microservices, which may interact with each other through HTTP to provide the whole system.</li>
+<li>A microservice is
+<ul>
+<li>a lightweight application, which provides a narrowed list of features with a well-defined contract.</li>
+<li>a component with a single responsibility, which can be developed and deployed independently.</li>
+</ul></li>
+</ul>
+<h3 id="microservices-2">Microservices (2)</h3>
+<ul>
+<li>In the book (and in this course), all our microservices are just simple web applications that
+<ul>
+<li>use the HTTP protocol, and</li>
+<li>consume and produce JSON when it’s not a UI.</li>
+</ul></li>
+</ul>
+<h3 id="microservice-benefits">Microservice Benefits</h3>
+<ul>
+<li>Separation of concerns</li>
+<li>Smaller projects to deal with</li>
+<li>More scaling and deployment options</li>
+</ul>
+<h3 id="separation-of-concerns">Separation of concerns</h3>
+<ul>
+<li>Each microservice can be developed independently by a separate team (or individual).</li>
+<li>Loose coupling:
+<ul>
+<li>improves the overall project velocity a lot</li>
+<li>similar to the single responsibility principle.</li>
+</ul></li>
+<li>The single responsibility principle (Robert Martin):
+<ul>
+<li>a class should have only one reason to change</li>
+<li>each class should provide a single, well-defined feature</li>
+<li>applied to microservices: each microservice should focus on a single role.</li>
+</ul></li>
+</ul>
+<h3 id="smaller-projects">Smaller Projects</h3>
+<ul>
+<li>Reduce complexity by breaking the project into smaller projects</li>
+<li>Each smaller project:
+<ul>
+<li>is simpler</li>
+<li>could be developed on different frameworks</li>
+<li>but integration of the smaller projects together can also create some complexity</li>
+</ul></li>
+</ul>
+<h3 id="scaling-and-deployment">Scaling and deployment</h3>
+<ul>
+<li>Having your application split into components makes it easier to scale depending on your constraints.</li>
+<li>CPU-consuming microservices can be deployed on machines with good CPUs, but with less RAM and disk space</li>
+<li>RAM-consuming microservices can be deployed on machines with lots of RAM but with weak CPUs or and less disk space</li>
+<li>Data-consuming microservices can be deployed on specialized data processing systems, such as Hadoop or Spark</li>
+</ul>
+<h2 id="summary-of-microservices-benefits">Summary of Microservices Benefits</h2>
+<ul>
+<li>A team can develop each microservice independently
+<ul>
+<li>they can use whatever technological stack makes sense</li>
+<li>they can define a custom release cycle</li>
+<li>all they need to define is a language-agnostic HTTP API</li>
+</ul></li>
+<li>Developers break the application complexity into logical components: each microservice focuses on doing one thing well.</li>
+<li>Since microservices are standalone applications, there’s a finer control on deployments, which makes scaling easier.</li>
+</ul>
+<h2 id="microservices-pitfalls">Microservices pitfalls</h2>
+<ul>
+<li>Building an application with microservices
+<ul>
+<li>has a lot of benefits</li>
+<li>but it’s not a silver bullet by all means</li>
+</ul></li>
+<li>Microservices main problems:
+<ul>
+<li>Illogical splitting</li>
+<li>More network interactions</li>
+<li>Data storing and sharing</li>
+<li>Compatibility issues</li>
+<li>Testing</li>
+</ul></li>
+</ul>
+<h3 id="illogical-splitting">Illogical splitting</h3>
+<ul>
+<li>Premature splitting is the root of all evil.</li>
+<li>If there’s any doubt that the split makes sense, keeping the code in the same app is the safe bet.</li>
+<li>It’s always easier to split apart some of the code into a new microservice later than to merge back to two microservices in the same code base because the decision turned out to be wrong.</li>
+</ul>
+<h3 id="more-network-interactions">More network interactions</h3>
+<ul>
+<li>What do we do if a microservice is unreachable because of network issues?</li>
+<li>Latency and bandwidth issues</li>
+<li>Added costs</li>
+</ul>
+<h3 id="data-storing-and-sharing">Data storing and sharing</h3>
+<ul>
+<li>An effective microservice needs to be independent of other microservices</li>
+<li>Ideally, it should not share a database</li>
+<li>Avoiding data duplication as much as possible while keeping microservices in isolation is one of the biggest challenges in designing microservices-based applications.</li>
+</ul>
+<h3 id="compatibility-issues">Compatibility issues</h3>
+<ul>
+<li>What happens when a feature change impacts several microservices?
+<ul>
+<li>Will it work with older versions?</li>
+<li>Do you need to change and deploy several services at once?</li>
+<li>Does it mean you’ve just stumbled on some services that should probably be merged back together?</li>
+</ul></li>
+<li>A good versioning and API design hygiene help to mitigate those issues</li>
+</ul>
+<h3 id="testing">Testing</h3>
+<ul>
+<li>You need to have a robust and agile deployment process to be efficient.</li>
+<li>You need to be able to play with your whole application when you develop it.</li>
+<li>You can’t fully test things out with just one piece of the puzzle.</li>
+<li>Microservices-style architecture boosts deployment tools innovation, and deployment tools lower the bar for the approval of microservices-style architecture.</li>
+</ul>
+<h2 id="summary-of-microservices-pitfalls">Summary of Microservices Pitfalls</h2>
+<ul>
+<li>Premature splitting of an application into microservices can lead to architectural problems</li>
+<li>Network interactions between microservices add weaknesses spots and additional overhead</li>
+<li>Testing and deploying microservices can be complex</li>
+<li>And the biggest challenge: data sharing between microservices is hard</li>
+</ul>
+</body>
+</html>

@@ -75,7 +75,7 @@ server returns exactly that structure.
 Unlike REST and RPC APIs, GraphQL APIs need only a single URL endpoint.
 Similarly, you do not need different HTTP verbs to describe the operation.
 Instead, you indicate in the JSON body whether you’re performing a query or a
-mutation, as illustrated in Example 2-7. GraphQL APIs support GET and POST
+mutation. GraphQL APIs support GET and POST
 verbs.
 
 #### Comparison of request–response API paradigms

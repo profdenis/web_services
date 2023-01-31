@@ -7,6 +7,7 @@
 Project: `04_flask_routes`
 
 Read:
+
 1. [What is an API?](https://restfulapi.net/what-is-an-api/)
 2. [What is Rest](https://restfulapi.net/)
 3. [REST Constraints](https://restfulapi.net/rest-architectural-constraints/)

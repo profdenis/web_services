@@ -34,7 +34,7 @@ def get_students():
 def get_student(student_id):
     with open('data/students.csv') as f:
         reader = csv.DictReader(f)
-        # not the most efficent way, but it will work for this simple example
+        # not the most efficient way, but it will work for this simple example
         data = [s for s in reader if s['student_id'] == str(student_id)]
         return data
 

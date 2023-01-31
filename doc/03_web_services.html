@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>420-941-VA Web Services</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">420-941-VA Web Services</h1>
+</header>
+<h1 id="web-services">Web Services</h1>
+<p>Notes based in part on the book <em>Designing Web APIs</em>, by Jin, Sahni &amp; Shevat</p>
+<h2 id="apis">APIs</h2>
+<p><strong>API</strong>: application programming interface</p>
+<p>Over the years, multiple API paradigms have emerged. <em>REST</em>, <em>RPC</em>, <em>GraphQL</em>, <em>WebHooks</em>, and <em>WebSockets</em> are some of the most popular standards today.</p>
+<h3 id="requestresponse-apis">Request–Response APIs</h3>
+<p>Request–response APIs typically expose an interface through an HTTP-based web server.</p>
+<p>Clients send HTTP request to the server, and gets back JSON or XML responses.</p>
+<h4 id="representational-state-transfer-rest">Representational State Transfer (REST)</h4>
+<p><a href="https://restfulapi.net/">https://restfulapi.net/</a></p>
+<p>Most common, or popular, architecture. It’s about giving access to resources.</p>
+<h5 id="architectural-constraints">Architectural Constraints</h5>
+<p>REST defines 6 architectural constraints which make any web service – a truly RESTful API.</p>
+<ol type="1">
+<li>Uniform interface</li>
+<li>Client–server</li>
+<li>Stateless</li>
+<li>Cacheable</li>
+<li>Layered system</li>
+<li>Code on demand (optional)</li>
+</ol>
+<h4 id="remote-procedure-call-rpc">Remote Procedure Call (RPC)</h4>
+<p>Whereas REST is about resources, RPC is about actions. Clients typically pass a method name and arguments to a server and receive back JSON or XML.</p>
+<h4 id="graphql">GraphQL</h4>
+<p>GraphQL allows clients to define the structure of the data required, and the server returns exactly that structure.</p>
+<h5 id="graphql-query">GraphQL query</h5>
+<pre class="graphql"><code>{
+  user(login: &quot;saurabhsahni&quot;) {
+    id
+    name
+    company
+    createdAt
+  }
+}</code></pre>
+<h5 id="response-from-github-graphql-api">Response from GitHub GraphQL API</h5>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>      <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;MDQ6VXNlcjY1MDI5&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Saurabh Sahni&quot;</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>      <span class="dt">&quot;company&quot;</span><span class="fu">:</span> <span class="st">&quot;Slack&quot;</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>      <span class="dt">&quot;createdAt&quot;</span><span class="fu">:</span> <span class="st">&quot;2009-03-19T21:00:06Z&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>    <span class="fu">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  <span class="fu">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="fu">}</span></span></code></pre></div>
+<p>Unlike REST and RPC APIs, GraphQL APIs need only a single URL endpoint. Similarly, you do not need different HTTP verbs to describe the operation. Instead, you indicate in the JSON body whether you’re performing a query or a mutation. GraphQL APIs support GET and POST verbs.</p>
+<h4 id="comparison-of-requestresponse-api-paradigms">Comparison of request–response API paradigms</h4>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 30%" />
+<col style="width: 26%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>REST</th>
+<th>RPC</th>
+<th>GraphQL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What?</td>
+<td>Exposes data as resources and uses standard HTTP methods to represent CRUD operations</td>
+<td>Exposes action-based API methods — clients pass method name and arguments</td>
+<td>A query language for APIs — clients define the structure of the response</td>
+</tr>
+<tr class="even">
+<td>Example services</td>
+<td>Stripe, GitHub, Twitter, Google</td>
+<td>Slack, Flickr</td>
+<td>Facebook, GitHub, Yelp</td>
+</tr>
+<tr class="odd">
+<td>HTTP verbs used</td>
+<td>GET, POST, PUT, PATCH, DELETE</td>
+<td>GET, POST</td>
+<td>GET, POST</td>
+</tr>
+<tr class="even">
+<td>Pros</td>
+<td>Standard method name, arguments format, and status codes</td>
+<td>Easy to understand</td>
+<td>Saves multiple round trips</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Utilizes HTTP features</td>
+<td>Lightweight payloads</td>
+<td>Avoids versioning</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Easy to maintain</td>
+<td>High performance</td>
+<td>Smaller payload size</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td>Strongly typed</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td>Built-in introspection</td>
+</tr>
+<tr class="odd">
+<td>Cons</td>
+<td>Big payloads</td>
+<td>Discovery is difficult</td>
+<td>Requires additional query parsing</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Multiple HTTP round trips</td>
+<td>Limited standardization</td>
+<td>Backend performance optimization is difficult</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>Can lead to function explosion</td>
+<td>Too complicated for a simple API</td>
+</tr>
+<tr class="even">
+<td>When to use?</td>
+<td>For APIs doing CRUD-like operations</td>
+<td>For APIs exposing several actions</td>
+<td>When you need querying flexibility; great for providing querying flexibility and maintaining consistency</td>
+</tr>
+</tbody>
+</table>
+<h3 id="event-driven-apis">Event-Driven APIs</h3>
+<p>With request–response APIs, for services with constantly changing data, the response can quickly become stale. Developers who want to stay up to date with the changes in data often end up polling the API. With polling, developers constantly query API endpoints at a predetermined frequency and look for new data.</p>
+<p>To share data about events in real time, there are three common mechanisms: WebHooks, WebSockets, and HTTP Streaming</p>
+<h4 id="webhooks">WebHooks</h4>
+<p>A WebHook is just a URL that accepts an HTTP POST (or GET, PUT, or DELETE). An API provider implementing WebHooks will simply POST a message to the configured URL when something happens.</p>
+<figure>
+<img src="images/web_hooks.jpeg" alt="" /><figcaption>WebHooks</figcaption>
+</figure>
+<h4 id="websockets">WebSockets</h4>
+<p>WebSocket is a protocol used to establish a two-way streaming communication channel over a single Transport Control Protocol (TCP) connection. Although the protocol is generally used between a web client (e.g., a browser) and a server, it’s sometimes used for server-to-server communication, as well.</p>
+<p>WebSockets can enable full-duplex communication (server and client can communicate with each other simultaneously) at a low overhead</p>
+<h4 id="http-streaming">HTTP Streaming</h4>
+<p>With the HTTP request–response APIs, clients send an HTTP request and the server returns an HTTP response of a finite length. With HTTP Streaming, the server can continue to push new data in a single long-lived connection opened by a client.</p>
+<figure>
+<img src="images/http_streaming.jpeg" alt="" /><figcaption>HTTP Streaming</figcaption>
+</figure>
+<h4 id="comparison-of-event-driven-apis">Comparison of event-driven APIs</h4>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 26%" />
+<col style="width: 35%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>WebHooks</th>
+<th>WebSockets</th>
+<th>HTTP Streaming</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What?</td>
+<td>Event notification via HTTP callback</td>
+<td>Two-way streaming connection over TCP</td>
+<td>Long-lived connection over HTTP</td>
+</tr>
+<tr class="even">
+<td>Example services</td>
+<td>Slack, Stripe, GitHub, Zapier, Google</td>
+<td>Slack, Trello, Blockchain</td>
+<td>Twitter, Facebook</td>
+</tr>
+<tr class="odd">
+<td>Pros</td>
+<td>Easy server-to-server communication</td>
+<td>Two-way streaming communication</td>
+<td>Can stream over simple HTTP</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Uses HTTP protocol</td>
+<td>Native browser support</td>
+<td>Native browser support</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>Can bypass firewalls</td>
+<td>Can bypass firewalls</td>
+</tr>
+<tr class="even">
+<td>Cons</td>
+<td>Do not work across firewalls or in browsers</td>
+<td>Need to maintain a persistent connection</td>
+<td>Bidirectional communication is difficult</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Handling failures, retries, security is hard</td>
+<td>Not HTTP</td>
+<td>Reconnections required to receive different events</td>
+</tr>
+<tr class="even">
+<td>When to use?</td>
+<td>To trigger the server to serve real-time events</td>
+<td>For two-way, real-time communication between browsers and servers</td>
+<td>For one-way communication over simple HTTP</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -4,6 +4,7 @@ from exercises_functions import is_even, is_palindrome, reverse, occurrences
 app = Flask(__name__)
 
 
+# Get the hello world message
 @app.route('/')
 def hello_world():  # put application's code here
     return 'Hello World!!!!!!!!!!!!!!!!!!!'
