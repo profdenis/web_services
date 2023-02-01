@@ -1,0 +1,33 @@
+### Test /hello1
+GET {{host}}/hello1
+
+### Test /hello2
+GET {{host}}/hello2
+
+### Test /hello3
+GET {{host}}/hello3
+
+### Test /students to get all students in the DB
+GET {{host}}/students
+
+### Test /students/1 to get 1 student with id 1
+GET {{host}}/students/1
+
+### Test /students to post a new student in the DB
+POST {{host}}/students
+Content-Type: application/json
+
+{
+  "student_id": "11",
+  "name": "John",
+  "program": "IT"
+}
+
+### Test /students to post an invalid student in the DB
+POST {{host}}/students
+Content-Type: application/json
+
+{
+  "name": "John",
+  "program": "IT"
+}
