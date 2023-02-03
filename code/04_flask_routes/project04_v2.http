@@ -1,0 +1,24 @@
+### Test /v2/students to get all students in the DB
+GET {{host}}/v2/students
+
+### Test /v2/students/1 to get 1 student with id 1
+GET {{host}}/v2/students/1
+
+### Test /v2/students to post a new student in the DB
+POST {{host}}/v2/students
+Content-Type: application/json
+
+{
+  "student_id": "11",
+  "name": "John",
+  "program": "IT"
+}
+
+### Test /v2/students to post an invalid student in the DB
+POST {{host}}/v2/students
+Content-Type: application/json
+
+{
+  "name": "John",
+  "program": "IT"
+}
