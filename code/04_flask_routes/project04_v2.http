@@ -14,7 +14,7 @@ Content-Type: application/json
   "program": "IT"
 }
 
-### Test /v2/students to post an invalid student in the DB
+### Test /v2/students to post a new student without an id in the DB
 POST {{host}}/v2/students
 Content-Type: application/json
 
