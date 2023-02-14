@@ -1,0 +1,117 @@
+### Get all contacts
+GET {{host}}/contacts
+Accept: application/json
+
+### Get contact 1
+GET {{host}}/contacts/1
+Accept: application/json
+
+### Get non existent contact
+GET {{host}}/contacts/111
+Accept: application/json
+
+### Get all calls of a contact 1
+GET {{host}}/contacts/1/calls
+Accept: application/json
+
+### Post new contact 1: only name not null
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "address": null,
+  "email": null,
+  "name": "New Contact",
+  "phone": null
+}
+
+### Post new contact 2: all not null
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "address": "Québec",
+  "email": "new@example.com",
+  "name": "New Contact",
+  "phone": "111-222-3333"
+}
+
+### Post new contact 3: only name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "New Contact"
+}
+
+### Post new contact 4: no name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "new@example.com"
+}
+
+### Post new contact 5: null name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": null
+}
+
+### Post new contact 6: empty payload
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+{
+}
+
+### Post new contact 7: no payload given without content type
+POST {{host}}/contacts
+Accept: application/json
+
+### Post new contact 8: no payload given with content type
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+
+### Update 1: contact 1 - name
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Updated 1"
+}
+
+### Update 2: contact 1 - name
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "address": "Updated 2",
+  "email": "updated2@example.com",
+  "name": "Updated 2",
+  "phone": "222-222-2222"
+}
+
+### Update 3: non existent contact
+PUT {{host}}/contacts/111
+Accept: application/json
+
+### Update 4: contact 1 no payload
+PUT {{host}}/contacts/1
+Accept: application/json
+
+### Delete contact 1
+DELETE {{host}}/contacts/1
+Accept: application/json
+

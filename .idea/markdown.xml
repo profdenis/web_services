@@ -2,5 +2,6 @@
 <project version="4">
   <component name="MarkdownSettings">
     <option name="customStylesheetPath" value="$PROJECT_DIR$/doc/github.css" />
+    <option name="showProblemsInCodeBlocks" value="false" />
   </component>
 </project>
