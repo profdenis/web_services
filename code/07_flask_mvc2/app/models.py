@@ -4,6 +4,7 @@ from app import db
 # import datetime
 from datetime import datetime
 
+
 class ContactEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, Contact):
@@ -16,11 +17,16 @@ class ContactEncoder(json.JSONEncoder):
         elif isinstance(o, Call):
             return {'call_id': o.call_id,
                     'phone': o.phone,
-                    'datetime': str(o.datetime),
-                    'contact_id': o.contact_id
+                    'datetime': str(o.datetime)
                     }
         else:
             return super().default(o)
+
+
+contact_call = db.Table('contact_call',
+                        db.Column('contact_id', db.Integer(), db.ForeignKey('contact.contact_id'), primary_key=True),
+                        db.Column('call_id', db.Integer(), db.ForeignKey('call.call_id'), primary_key=True)
+                        )
 
 
 class Contact(db.Model):
@@ -30,13 +36,11 @@ class Contact(db.Model):
     email = db.Column(db.Text())
     phone = db.Column(db.Text())
     address = db.Column(db.Text())
-    calls = db.relationship('Call', backref='contact', lazy=True)
+    calls = db.relationship('Call', secondary=contact_call, backref=db.backref('calls', lazy=True), lazy=True,
+                            viewonly=True)
 
     def __repr__(self):
         return f"<Contact {self.contact_id}: {self.name}>"
-
-    def to_dict(self):
-        return __dict__
 
 
 class Call(db.Model):
@@ -44,15 +48,7 @@ class Call(db.Model):
     call_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     phone = db.Column(db.Text(), nullable=False)
     datetime = db.Column(db.DateTime(), nullable=False, default=datetime.now)
-    contact_id = db.Column(db.Integer(), db.ForeignKey('contact.contact_id'))
+    contacts = db.relationship('Contact', secondary=contact_call, backref=db.backref('contacts', lazy=True), lazy=True)
 
     def __repr__(self):
-        return f"<Call {self.call_id}: {self.phone} {self.contact_id}>"
-
-    def __getstate__(self):
-        state = self.__dict__.copy()
-        del state['_sa_instance_state']
-        return state
-
-    def __setstate__(self, state):
-        self.__dict__.update(state)
+        return f"<Call {self.call_id}: {self.phone} >"

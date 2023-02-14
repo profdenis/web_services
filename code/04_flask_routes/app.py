@@ -60,6 +60,9 @@ def get_students_v2():
     cur = con.cursor()
     cur.execute("select * from student;")
     students = [dict(row) for row in cur]
+    # students = []
+    # for row in cur:
+    #     students.append(dict(row))
     con.close()
     return students
 
@@ -84,8 +87,8 @@ def post_student_v2():
 
     if not name:
         return {'success': False,
-                'student_id': int(student_id),
-                'msg': 'Missing name or program'}, 409
+                'student_id': int(student_id) if student_id else None,
+                'msg': 'Missing name'}, 409
 
     con = sqlite3.connect('data/students.sqlite')
     con.row_factory = sqlite3.Row
