@@ -46,9 +46,13 @@ def update_contact(contact_id):
     contact = Contact.query.get_or_404(contact_id)
 
     data = request.json
+    contact.name = data.get('name', contact.name)
+    if not contact.name:
+        return {'success': False,
+                'error': 'Missing Name',
+                'code': 409}, 409
     contact.address = data.get('address', contact.address)
     contact.email = data.get('email', contact.email)
-    contact.name = data.get('name', contact.name)
     contact.phone = data.get('phone', contact.phone)
 
     db.session.add(contact)

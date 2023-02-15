@@ -16,6 +16,10 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or r'sqlite:///contacts.sqlite'
 
+class TestConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or r'sqlite:///contacts2.sqlite'
+
 
 class ProductionConfig(Config):
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or r'postgresql://webapps:webapps@localhost:5432/denis'
@@ -25,6 +29,7 @@ class ProductionConfig(Config):
 
 config = {
     'development': DevelopmentConfig,
+    'test': TestConfig,
     'production': ProductionConfig,
 
     'default': DevelopmentConfig

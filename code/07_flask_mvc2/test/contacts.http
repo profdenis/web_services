@@ -91,7 +91,7 @@ Content-Type: application/json
   "name": "Updated 1"
 }
 
-### Update 2: contact 1 - name
+### Update 2: contact 1 - all attributes
 PUT {{host}}/contacts/1
 Accept: application/json
 Content-Type: application/json
@@ -111,7 +111,19 @@ Accept: application/json
 PUT {{host}}/contacts/1
 Accept: application/json
 
-### Delete contact 1
-DELETE {{host}}/contacts/1
+### Update 5: contact 1 - name is null
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": null
+}
+
+### Delete 1: contact 3
+DELETE {{host}}/contacts/3
 Accept: application/json
 
+### Delete 2: non existent contact
+DELETE {{host}}/contacts/111
+Accept: application/json

@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify
 from . import main
 from ..models import Contact, Call
+from . import views_contacts, views_calls
 
 
 @main.errorhandler(Exception)
