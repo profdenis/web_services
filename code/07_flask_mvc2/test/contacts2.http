@@ -1,36 +1,53 @@
 ### Get all contacts
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_all_contacts")
+%}
 GET {{host}}/contacts
 Accept: application/json
 
-> {%
-client.test("Request executed successfully", function() {
-  client.assert(response.status === 200, "Response status is not 200");
-});
-
-client.test("Response content-type is json", function() {
-  var type = response.contentType.mimeType;
-  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
-});
-
-client.test("Headers option exists", function() {
-  client.assert(response.body.hasOwnProperty("data"), "Cannot find 'headers' option in response");
-  client.assert(response.body.hasOwnProperty("success"), "Cannot find 'headers' option in response");
-});
-%}
+> common.js
 
 ### Get contact 1
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_contact_1")
+%}
 GET {{host}}/contacts/1
 Accept: application/json
 
+> common.js
+
 ### Get non existent contact
+< {%
+    request.variables.set("statusCode", "404")
+    request.variables.set("keys", "error")
+    request.variables.set("values", "error_404")
+%}
 GET {{host}}/contacts/111
 Accept: application/json
 
+> common.js
+
 ### Get all calls of a contact 1
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_all_calls_contact_1")
+%}
 GET {{host}}/contacts/1/calls
 Accept: application/json
 
+> common.js
+
 ### Post new contact 1: only name not null
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "post_new_contact_1")
+%}
 POST {{host}}/contacts
 Accept: application/json
 Content-Type: application/json
@@ -42,7 +59,14 @@ Content-Type: application/json
   "phone": null
 }
 
+> common.js
+
 ### Post new contact 2: all not null
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "post_new_contact_2")
+%}
 POST {{host}}/contacts
 Accept: application/json
 Content-Type: application/json
@@ -53,6 +77,8 @@ Content-Type: application/json
   "name": "New Contact",
   "phone": "111-222-3333"
 }
+
+> common.js
 
 ### Post new contact 3: only name given
 POST {{host}}/contacts
@@ -107,7 +133,7 @@ Content-Type: application/json
   "name": "Updated 1"
 }
 
-### Update 2: contact 1 - all attributes
+### Update 2: contact 1 - all keys
 PUT {{host}}/contacts/1
 Accept: application/json
 Content-Type: application/json
