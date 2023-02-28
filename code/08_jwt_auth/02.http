@@ -1,0 +1,23 @@
+### Post a (username, password) pair to get a token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "batman",
+  "password": "password"
+}
+
+### Get a protected endpoint without any token
+GET {{host}}/who_am_i
+
+### Get a protected endpoint with an expired token
+GET {{host}}/who_am_i
+Authorization: Bearer {{expired_token}}
+
+### Get a protected endpoint with an invalid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{invalid_token}}
+
+### Get a protected endpoint with a valid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{valid_token2}}

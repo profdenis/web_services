@@ -1,0 +1,82 @@
+openapi: '3.0.3'
+info:
+  version: '1.0.0'
+  title: 'Contacts API'
+  description: Manage a contacts and calls database
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /contacts/{contactId}:
+    parameters:
+      - name: contactId
+        description: The unique identifier of the contact
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ContactId'
+    get:
+      summary: Get a contact
+      responses:
+        '200':
+          description: The contact corresponding to the provided `contactId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        404:
+          description: No contact found for the provided `contactId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ContactId:
+      description: The unique identifier of a contact
+      type: integer
+    Contact:
+      type: object
+      required:
+        - contact_id
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/ContactId'
+        name:
+          type: string
+        email:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: status code
+          type: integer
+        message:
+          description: A human readable error message
+          type: string
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []

@@ -9,6 +9,8 @@ Accept: application/json
 
 > common.js
 
+
+
 ### Get contact 1
 < {%
     request.variables.set("statusCode", "200")
