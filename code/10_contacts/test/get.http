@@ -1,0 +1,61 @@
+### Get a valid token for the next tests
+POST {{host_auth}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+    client.global.set("valid_refresh_token", response.body["refresh_token"])
+%}
+
+### Get all contacts
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_all_contacts")
+%}
+GET {{host}}/contacts
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### Get contact 1
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_contact_1")
+%}
+GET {{host}}/contacts/1
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### Get non existent contact
+< {%
+    request.variables.set("statusCode", "404")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "msg_404")
+%}
+GET {{host}}/contacts/111
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### Get all calls of a contact 1
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "get_all_calls_contact_1")
+%}
+GET {{host}}/contacts/1/calls
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+> common.js

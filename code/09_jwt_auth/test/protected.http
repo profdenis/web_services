@@ -1,0 +1,113 @@
+### 01 - Get a protected endpoint without any token
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "who_am_i missing auth header")
+%}
+GET {{host}}/who_am_i
+
+> common.js
+
+### 02 - Get a protected endpoint with an invalid signature token
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "who_am_i invalid signature")
+%}
+GET {{host}}/who_am_i
+Authorization: Bearer {{invalid_signature_token}}
+
+> common.js
+
+### 03 - Get a protected endpoint with an expired token
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "who_am_i token expired")
+%}
+GET {{host}}/who_am_i
+Authorization: Bearer {{expired_token}}
+
+> common.js
+
+### 04 - Get a protected endpoint with an invalid token
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "who_am_i invalid token")
+%}
+GET {{host}}/who_am_i
+Authorization: Bearer {{invalid_token}}
+
+> common.js
+
+### Get a valid token for the next test
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+    client.global.set("valid_refresh_token", response.body["refresh_token"])
+%}
+
+### 05 - Get a protected endpoint with a valid token
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "user")
+    request.variables.set("values", "who_am_i valid")
+%}
+GET {{host}}/who_am_i
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### 06 - Get a fresh only endpoint with a valid fresh token
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "fresh_only valid fresh token")
+%}
+GET {{host}}/fresh-only
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### Refresh for the next test
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "fresh_only valid fresh token")
+%}
+POST {{host}}/refresh
+Authorization: Bearer {{valid_refresh_token}}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+%}
+
+### 07 - Get a fresh only endpoint with a valid not fresh token
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "fresh_only valid not fresh token")
+%}
+GET {{host}}/fresh-only
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+### 08 - Get a protected endpoint with a valid not fresh token
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "user")
+    request.variables.set("values", "who_am_i valid")
+%}
+GET {{host}}/who_am_i
+Authorization: Bearer {{valid_token}}
+
+> common.js

@@ -20,4 +20,4 @@ Authorization: Bearer {{invalid_token}}
 
 ### Get a protected endpoint with a valid token
 GET {{host}}/protected
-Authorization: Bearer {{valid_token}}
+Authorization: Bearer {{valid_token1}}

@@ -1,0 +1,103 @@
+### 01 - Register a new user
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "register")
+    request.variables.set("values", "register success")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "email": "denis@example.com",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+> common.js
+
+### 02 - Try to register an existing user
+< {%
+    request.variables.set("statusCode", "409")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "register duplicate")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "email": "denis@example.com",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+> common.js
+
+### 03 - Try to register a user with missing or invalid username
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "register missing username")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "email": "denis@example.com",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+> common.js
+
+### 04 - Try to register a user with missing or invalid email
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "register missing email")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis2",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+> common.js
+
+### 05 - Try to register a user with missing or invalid full_name
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "register missing full_name")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis2",
+  "email": "denis@example.com",
+  "password": "denis123"
+}
+
+> common.js
+
+### 06 - Try to register a user with missing or invalid password
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "register missing password")
+%}
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis2",
+  "email": "denis@example.com",
+  "full_name": "Denis 123"
+}
+
+> common.js

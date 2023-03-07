@@ -1,0 +1,60 @@
+### 01 - Register a new user
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "email": "denis@example.com",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+### 02 - Post a (username, password) pair to get a token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+    client.global.set("valid_refresh_token", response.body["refresh_token"])
+%}
+
+### 03 - Get a protected endpoint without any token
+GET {{host}}/who_am_i
+
+### 04 - Get a protected endpoint with an expired token
+GET {{host}}/who_am_i
+Authorization: Bearer {{expired_token}}
+
+### 05 - Get a protected endpoint with an invalid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{invalid_token}}
+
+### 06 - Get a protected endpoint with a valid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{valid_token}}
+
+### 07 - Get a fresh only endpoint with a valid token
+GET {{host}}/fresh-only
+Authorization: Bearer {{valid_token}}
+
+### 08 - Post the refresh token to get a new access token (not fresh)
+POST {{host}}/refresh
+Authorization: Bearer {{valid_refresh_token}}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+%}
+
+
+### 09 - Delete valid_token
+DELETE {{host}}/logout
+Authorization: Bearer {{valid_token}}
+
+### 10 - Delete valid_refresh_token
+DELETE {{host}}/logout
+Authorization: Bearer {{valid_refresh_token}}

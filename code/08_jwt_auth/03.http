@@ -1,0 +1,42 @@
+### Register a new user
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "denis1",
+  "email": "denis@example.com",
+  "full_name": "Denis 123",
+  "password": "denis123"
+}
+
+### Post a (username, password) pair to get a token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+%}
+
+### Get a protected endpoint without any token
+GET {{host}}/who_am_i
+
+### Get a protected endpoint with an expired token
+GET {{host}}/who_am_i
+Authorization: Bearer {{expired_token}}
+
+### Get a protected endpoint with an invalid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{invalid_token}}
+
+### Get a protected endpoint with a valid token
+GET {{host}}/who_am_i
+Authorization: Bearer {{valid_token}}
+
+
+# $2b$12$w3ju75dQPqoqB/q5Mcj/Iu0rp610tZQUxyqsMODcbAh9ETraE9b32
+# $2b$12$2Xd5cCp.5LHnFvAA../Yweg5mLJwcvV34OMctBZgRsQ/82qHW2CBC

@@ -1,0 +1,7 @@
+### 09 - Delete valid_token
+DELETE {{host}}/logout
+Authorization: Bearer {{valid_token}}
+
+### 10 - Delete valid_refresh_token
+DELETE {{host}}/logout
+Authorization: Bearer {{valid_refresh_token}}

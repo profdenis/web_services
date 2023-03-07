@@ -1,6 +1,4 @@
 # example from https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage/
-import os
-
 from flask import Flask
 from flask import jsonify
 from flask import request

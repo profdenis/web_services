@@ -1,0 +1,145 @@
+
+
+### Post new contact 1: only name not null
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "post_new_contact_1")
+%}
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "address": null,
+  "email": null,
+  "name": "New Contact",
+  "phone": null
+}
+
+
+> common.js
+
+### Post new contact 2: all not null
+< {%
+    request.variables.set("statusCode", "200")
+    request.variables.set("keys", "success")
+    request.variables.set("values", "post_new_contact_2")
+%}
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "address": "Québec",
+  "email": "new@example.com",
+  "name": "New Contact",
+  "phone": "111-222-3333"
+}
+
+> common.js
+
+### Post new contact 3: only name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "name": "New Contact"
+}
+
+### Post new contact 4: no name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "email": "new@example.com"
+}
+
+### Post new contact 5: null name given
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "name": null
+}
+
+### Post new contact 6: empty payload
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+}
+
+### Post new contact 7: no payload given without content type
+POST {{host}}/contacts
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+### Post new contact 8: no payload given with content type
+POST {{host}}/contacts
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+### Update 1: contact 1 - name
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "name": "Updated 1"
+}
+
+### Update 2: contact 1 - all keys
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "address": "Updated 2",
+  "email": "updated2@example.com",
+  "name": "Updated 2",
+  "phone": "222-222-2222"
+}
+
+### Update 3: non existent contact
+PUT {{host}}/contacts/111
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+### Update 4: contact 1 no payload
+PUT {{host}}/contacts/1
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+### Update 5: contact 1 - name is null
+PUT {{host}}/contacts/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{valid_token}}
+
+{
+  "name": null
+}
+
+### Delete 1: contact 3
+DELETE {{host}}/contacts/3
+Accept: application/json
+Authorization: Bearer {{valid_token}}
+
+### Delete 2: non existent contact
+DELETE {{host}}/contacts/111
+Accept: application/json
+Authorization: Bearer {{valid_token}}

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/08_jwt_auth.iml" filepath="$PROJECT_DIR$/.idea/08_jwt_auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/09_jwt_auth.iml" filepath="$PROJECT_DIR$/.idea/09_jwt_auth.iml" />
     </modules>
   </component>
 </project>

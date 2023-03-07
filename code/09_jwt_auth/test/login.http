@@ -1,0 +1,70 @@
+### 01 - Post a valid (username, password) pair to get a token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+    client.global.set("valid_refresh_token", response.body["refresh_token"])
+
+    client.test("Request executed successfully", function () {
+        const expected = 200;
+        client.assert(response.status === expected,
+            "Response status is " + response.status + " instead of " + expected);
+    });
+
+    client.test("Response content-type is json", function () {
+        const type = response.contentType.mimeType;
+        client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+    });
+%}
+
+### 02 - Post an invalid (username, password) pair to get a token
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "login invalid")
+%}
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis1234"
+}
+
+> common.js
+
+### 03 - Post an invalid (username, password) pair to get a token, missing username
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "login missing username or password")
+%}
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "password": "denis123"
+}
+
+> common.js
+
+### 04 - Post an invalid (username, password) pair to get a token, missing password
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "login missing username or password")
+%}
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis"
+}
+
+> common.js

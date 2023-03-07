@@ -1,0 +1,66 @@
+### Get a valid token for the next test
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "denis",
+  "password": "denis123"
+}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+    client.global.set("valid_refresh_token", response.body["refresh_token"])
+%}
+
+### 01 - Post the refresh token to get a new access token (not fresh)
+POST {{host}}/refresh
+Authorization: Bearer {{valid_refresh_token}}
+
+> {%
+    client.global.set("valid_token", response.body["access_token"])
+
+    client.test("Request executed successfully", function () {
+        const expected = 200;
+        client.assert(response.status === expected,
+            "Response status is " + response.status + " instead of " + expected);
+    });
+
+    client.test("Response content-type is json", function () {
+        const type = response.contentType.mimeType;
+        client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+    });
+%}
+
+### 02 - Post an expired refresh token to get a new access token (not fresh)
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "refresh expired token")
+%}
+POST {{host}}/refresh
+Authorization: Bearer {{expired_refresh_token}}
+
+> common.js
+
+### 03 - Post a non-refresh token to get a new access token (not fresh)
+< {%
+    request.variables.set("statusCode", "422")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "refresh non-refresh token")
+%}
+POST {{host}}/refresh
+Authorization: Bearer {{valid_token}}
+
+> common.js
+
+
+### 04 - Post an epired non-refresh token to get a new access token (not fresh)
+< {%
+    request.variables.set("statusCode", "401")
+    request.variables.set("keys", "msg")
+    request.variables.set("values", "refresh expired non-refresh token")
+%}
+POST {{host}}/refresh
+Authorization: Bearer {{expired_token}}
+
+> common.js
